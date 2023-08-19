@@ -1,0 +1,153 @@
+
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+
+  <%- include('../partials/sideMenuAdmin.ejs'); %>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+          <!-- Main Content -->
+          <div id="content">
+
+              <!-- Topbar -->
+              <%- include('../partials/top_nav.ejs'); %>
+              <!-- End of Topbar -->
+
+              <!-- Begin Page Content -->
+              <div class="container-fluid">
+
+                  <!-- Page Heading -->
+                  <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
+
+                  <!-- DataTales Example -->
+                <div class="card p-3">
+                  <%- include('../partials/messages.ejs'); %>
+                  <form action="/adddoc" method="POST">
+                    <div class="form-group">
+                    <div class="form-row">
+                      <!-- Used to inplace two inputs or more in one row -->
+                      <div class="form-group col-md-6">
+                        <label class="form-control-label" for="salutation">Salutation</label>
+                        <select name="salutation" id="salutation" class="form-control custom-select ">
+                          <option value="Dr.">Dr.</option>
+                          <option value="Asso. Prof.">Asst. Prof.</option>
+                          <option value="Prof">Prof</option>
+                          <option value="Asst. Prof. Dr.">Asst. Prof. Dr.</option>
+                          <option value="Prof. Dr.">Prof. Dr.</option>
+                          <option value="Tech">Tech</option>
+                          <option value="Acu.">Acu.</option>
+                          <option value="Mr.">Mr.</option>
+                          <option value="Ms.">Ms.</option>
+                          <option value="Pt.">Pt.</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="name">Doctor Name</label>
+                        <input type="name" id="name" name="name" class="form-control "
+                          placeholder="Enter  Full Name" value="<%= typeof name != 'undefined' ? name : '' %>" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" id="email" name="email" class="form-control "
+                        placeholder="Enter Email" value="<%= typeof email != 'undefined' ? email : '' %>" />
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control "
+                          placeholder="Create Password" value="<%= typeof password != 'undefined' ? password : '' %>" />
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="password2">Confirm Password</label>
+                        <input type="password" id="password2" name="password2" class="form-control "
+                          placeholder="Confirm Password" value="<%= typeof password2 != 'undefined' ? password2 : '' %>" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="phonenumber">Phone Number</label>
+                        <input type="phonenumber" id="phonenumber" name="phonenumber" class="form-control"
+                          placeholder="Enter phone number" pattern="[0-9]{10}"
+                          value="<%= typeof phonenumber != 'undefined' ? phonenumber : '' %>" />
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="experience">Years of Experience</label>
+                        <input type="number" id="experience" name="experience" class="form-control"
+                          placeholder="Enter years of experience"
+                          value="<%= typeof experience != 'undefined' ? experience : '' %>" />
+                      </div>
+                    </div>
+                    <div class="form-group ">
+                      <label for="speciality">Speciality</label>
+                      <select name="speciality" id="speciality" class="form-control custom-select ">
+                        <option value="Allergy & Immunology">Allergy & Immunology</option>
+                        <option value="Anesthesiology">Anesthesiology</option>
+                        <option value="Colon & Rectal Surgery">Colon & Rectal Surgery</option>
+                        <option value="Dermatology">Dermatology</option>
+                        <option value="Neurological Surgery">Neurological Surgery </option>
+                        <option value="Neurology & Psychiatry">Neurology & Psychiatry</option>
+                        <option value="Nephrology">Nephrology</option>
+                        <option value="Nuclear Medicine">Nuclear Medicine</option>
+                        <option value="Obstetrics & Gynecology">Obstetrics & Gynecology</option>
+                        <option value="Oncology">Oncology</option>
+                        <option value="Ophthalmology">Ophthalmology</option>
+                        <option value="Orthopaedic Surgery">Orthopaedic Surgery</option>
+                        <option value="Otolaryngology – Head and Neck Surgery">Otolaryngology – Head and Neck Surgery</option>
+                        <option value="Pathology">Pathology</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Physical Medicine & RehabilitationPt.">Physical Medicine & Rehabilitation</option>
+                        <option value="Plastic Surgery">Plastic Surgery</option>
+                        <option value="Radiology">Radiology</option>
+                        <option value="Rheumatology">Rheumatology</option>
+                        <option value="Surgery">Surgery</option>
+                        <option value="Thoracic Surgery">Thoracic Surgery</option>
+                        <option value="Urology">Urology</option>
+      
+                      </select>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="qualification">Qualification</label>
+                        <input type="name" id="qualification" name="qualification" class="form-control"
+                          placeholder="Enter your qualification"
+                          value="<%= typeof qualification != 'undefined' ? qualification : '' %>" />
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="gender" class="form-control-label">Gender</label>
+                        <select name="gender" id="gender" class="form-control custom-select hvr-">
+                          <option name="male">Male</option>
+                          <option name="female">Female</option>
+                          <option name="others">Others</option>
+                        </select>
+                      </div>
+                    </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block hvr-grow-shadow" style="background: #0097A7;">
+                      Register
+                    </button>
+                  </form>
+                </div>
+
+              </div>
+              <!-- /.container-fluid -->
+
+          </div>
+          <!-- End of Main Content -->
+
+
+      </div>
+      <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+  </a>
