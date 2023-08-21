@@ -12,6 +12,7 @@ const Admin = require("../models/Admin");
 router.get("/adminprofile", ensureAuthenticated_admin, async (req, res) => {
   res.render("admin/adminprofile", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 

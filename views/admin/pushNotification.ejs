@@ -1,0 +1,92 @@
+<%- include('../partials/messages.ejs'); %>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('../partials/sideMenuAdmin.ejs'); %>
+
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <%- include('../partials/top_nav.ejs'); %>
+
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+              <!-- Page Heading -->
+              <div class="card shadow mb-4">
+
+                <div class="card-body mt-5">
+                  <div class="table-responsive">
+
+                    <!-- Main Content -->
+                    <form action="/pushNotification" method="post">
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="title">Title</label>
+                                    <input type="text" id="title" name="title" class="form-control"
+                                      placeholder="Enter Title" required />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="icon">Icon</label>
+                                    <select id="icon" name="icon" class="form-control" required>
+                                        <option value="" disabled selected>Select Icon</option>
+                                        <option value="bi bi-info-circle">Info</option>
+                                        <option value="bi bi-exclamation-triangle">Warning</option>
+                                        <option value="bi bi-award">Award</option>
+                                        <option value="bi bi-bell">Important</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="to">To</label>
+                                    <select id="to" name="to" class="form-control" required>
+                                        <option value="" disabled selected>Select Role</option>
+                                        <option value="Patient">Patient</option>
+                                        <option value="Doctor">Doctor</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="color">Color</label>
+                                    <select id="color" name="color" class="form-control" required>
+                                        <option value="" disabled selected>Select Color</option>
+                                        <option value="bg-info">Info</option>
+                                        <option value="bg-success">Success</option>
+                                        <option value="bg-secondary">Secondary</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="form-group col-md-12">
+                                    <label for="description">Description</label>
+                                    <textarea type="text" id="description" name="description" class="form-control"
+                                      placeholder="Enter description" cols="4" rows="4" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Notification</button>
+                    </form>
+                    
+                        <!-- End of Main Content -->
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fas fa-angle-up"></i>
+        </a>

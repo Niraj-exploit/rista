@@ -13,6 +13,7 @@ router.get("/myAppointments", async (req, res) => {
   });
   res.render("patient/myAppointments", {
     user: req.user,
+    notifications: res.locals.notifications,
     appointments,
   });
 });
@@ -20,6 +21,7 @@ router.get("/myAppointments", async (req, res) => {
 router.get("/makeAppointment/:id", async (req, res) => {
   res.render("patient/makeAppointment", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
   doc_id = req.params.id;
 });
@@ -29,6 +31,7 @@ router.get("/doctor/appointment", async (req, res) => {
   const appointments = await Appointment.find({ doctorID: drid });
   res.render("doctor/doctorseesappointment", {
     user: req.user,
+    notifications: res.locals.notifications,
     appointments,
     moment: moment,
   });
@@ -66,6 +69,7 @@ router.post("/makeAppointment/:id", async (req, res) => {
 router.get("/cancelAppointment/:id", async (req, res) => {
   res.render("patient/cancelAppointment", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
   appointment_c_id = req.params.id;
 });
@@ -85,6 +89,7 @@ router.get("/seeAppointments", async (req, res) => {
   const appointments = await Appointment.find();
   res.render("admin/seeAppointments", {
     user: req.user,
+    notifications: res.locals.notifications,
     appointments,
     moment: moment,
   });
@@ -94,6 +99,7 @@ router.get("/seeAppointments", async (req, res) => {
 router.get("/updateAppointment/:id", async (req, res) => {
   res.render("admin/updateAppointment", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
   appointment_id = req.params.id;
 });

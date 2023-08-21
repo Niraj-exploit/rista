@@ -26,14 +26,16 @@ router.get('/patient/welcome', (req, res) => res.render('patient/welcome'));
 //doctordashboard
 router.get('/doctordashboard', ensureAuthenticated_doctor, async (req, res) => {
     res.render('doctor/doctordashboard', {
-        user: req.user
+        user: req.user,
+        notifications: res.locals.notifications
     })
 })
 
 //patientdashboard page
 router.get('/patientdashboard', ensureAuthenticated_patient, async (req, res) => {
     res.render('patient/patientdashboard', {
-        user: req.user
+        user: req.user,
+        notifications: res.locals.notifications
     })
 })
 
@@ -51,6 +53,7 @@ router.get('/admindashboard', ensureAuthenticated_admin, async (req, res) => {
 
                 res.render('admin/admindashboard', {
                     user: req.user,
+                    notifications: res.locals.notifications,
                     patientCount,
                     doctorCount,
                     feedbackCount

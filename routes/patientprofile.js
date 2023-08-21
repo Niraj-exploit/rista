@@ -21,6 +21,7 @@ const Patient = mongoose.model("Patient");
 router.get("/patientprofile", ensureAuthenticated_patient, async (req, res) => {
   res.render("patient/patientprofile", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 

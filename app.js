@@ -13,6 +13,7 @@ const app = express();
 const MongoStore = require('connect-mongo');
 const server = http.createServer(app);
 const dotenv = require("dotenv");
+const Notification = require("./models/Notification");
 dotenv.config();
 
 app.use("/public/images/", express.static("./public/images"));
@@ -97,11 +98,29 @@ app.use(passport.session());
 //flash
 app.use(flash());
 
+
+//For Notification
+
+
 // Global variables
-app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash("success_msg");
-  res.locals.error_msg = req.flash("error_msg");
-  res.locals.error = req.flash("error");
+// app.use(function (req, res, next) {
+//   res.locals.success_msg = req.flash("success_msg");
+//   res.locals.error_msg = req.flash("error_msg");
+//   res.locals.error = req.flash("error");
+//   next();
+// });
+app.use(async function (req, res, next) {
+  try {
+    const notifications = await Notification.find().sort({ date: -1 }).limit(5);
+    res.locals.notifications = notifications;
+  } catch (err) {
+    console.error('Error fetching notifications:', err);
+  }
+  
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  
   next();
 });
 
@@ -116,11 +135,19 @@ app.use("/", require("./routes/admincontrols"));
 app.use("/", require("./routes/doctorcontrols"));
 app.use("/", require("./routes/appointment"));
 app.use("/", require("./routes/api/feedback"));
+app.use("/", require("./routes/notification"));
 app.use("/patient", require("./routes/patient"));
 app.use("/doctor", require("./routes/doctor"));
 app.use("/admin", require("./routes/admin"));
 
-
+// app.use(async function (req, res, next) {
+//   try {
+//     const notifications = await Notification.find().sort({ date: -1 }).limit(5);
+//     res.locals.notifications = notifications;
+//   } catch (err) {
+//     console.error('Error fetching notifications:', err);
+//   }
+// });
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, console.log(`Server started on port ${PORT}`));

@@ -120,4 +120,19 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
+router.get('/notifications', (req, res) => {
+  Notification.find()
+    .sort({ date: -1 }) // Sort by date in descending order
+    .then(notifications => {
+      res.render('your_notification_template', {
+        notifications: notifications
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+
 module.exports = router;

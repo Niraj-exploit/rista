@@ -21,6 +21,7 @@ const Doctor = require("../models/Doctor");
 router.get("/doctorprofile", ensureAuthenticated_doctor, async (req, res) => {
   res.render("doctor/doctorprofile", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 

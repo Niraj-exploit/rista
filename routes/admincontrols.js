@@ -45,6 +45,7 @@ router.get("/viewpatients", ensureAuthenticated_admin, async (req, res) => {
                 patientCount,
                 patients: patients, //just patients yo line ma incase --->const patients
                 user: req.user, //which is done above
+                notifications: res.locals.notifications,
               });
             }
           }
@@ -56,6 +57,7 @@ router.get("/viewpatients", ensureAuthenticated_admin, async (req, res) => {
         patientCount,
         patients,
         user: req.user,
+        notifications: res.locals.notifications,
       });
     }
   });
@@ -111,6 +113,7 @@ router.get("/viewpatients/:id", ensureAuthenticated_admin, (req, res) => {
   res.render("admin/adminPatientdetails", {
     patient: req.patient,
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 
@@ -124,6 +127,7 @@ router.get(
       images: req.reports,
       patient: req.patient,
       user: req.user,
+      notifications: res.locals.notifications,
       
     });
   }
@@ -138,6 +142,7 @@ router.get(
       patient: req.patient,
       adminimages: req.adminreport,
       user: req.user,
+      notifications: res.locals.notifications,
     });
   }
 );
@@ -175,6 +180,7 @@ router.get("/viewdoctors", ensureAuthenticated_admin, async (req, res) => {
                 doctorCount,
                 doctors: doctors, //just doctors yo line ma incase --->const doctors
                 user: req.user, //which is done above
+                notifications: res.locals.notifications,
               });
             }
           }
@@ -186,6 +192,7 @@ router.get("/viewdoctors", ensureAuthenticated_admin, async (req, res) => {
         doctorCount,
         doctors,
         user: req.user,
+        notifications: res.locals.notifications,
       });
     }
   });
@@ -228,6 +235,7 @@ router.get("/viewdoctors/:id", ensureAuthenticated_admin, (req, res) => {
     availability: req.availability,
     doctor: req.doctor,
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 
@@ -246,6 +254,7 @@ router.get("/updatedoctor/:id", ensureAuthenticated_admin, (req, res) => {
       res.render("admin/adminUpdateDoctor", {
         doctor: doctor,
         user: req.user,
+        notifications: res.locals.notifications,
       });
     })
     .catch(err => {
@@ -299,7 +308,8 @@ router.post('/updatedoctor', (req, res) => {
       res.render('admin/adminAddDoctor', { // Supposing the template name is 'adminAddDoctor'
           errors,
           doctor: req.doctor, // Assuming req.doctor contains the existing doctor data
-          user: req.user
+          user: req.user,
+          notifications: res.locals.notifications,
       });
   } else {
       // Validation passed
@@ -353,6 +363,7 @@ router.post('/updatedoctor', (req, res) => {
 router.get("/adddoc", ensureAuthenticated_admin, (req, res) => {
   res.render("admin/adminAddDoctor", {
     user: req.user,
+    notifications: res.locals.notifications,
   })
 })
 
@@ -410,6 +421,7 @@ router.post('/adddoc', (req, res) => {
       res.render('admin/adminAddDoctor', { //suppose kunai condition meet garena bhane ni tei page ma basne bhayo
           errors, //register lai rendering garda errors lai pathairacha which is checked in messages 
           user: req.user,
+          notifications: res.locals.notifications,
           name,
           email,
           password,
@@ -497,5 +509,6 @@ router.post('/deletedoctor/:id', (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     });
 });
+
 
 module.exports = router;

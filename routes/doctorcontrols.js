@@ -21,6 +21,7 @@ router.get(
     res.render("doctor/availability", {
       availData,
       user: req.user,
+      notifications: res.locals.notifications,
     });
   }
 );
@@ -42,6 +43,7 @@ router.get(
   async (req, res) => {
     res.render("doctor/availability_update", {
       user: req.user,
+      notifications: res.locals.notifications,
     });
   }
 );
@@ -78,6 +80,7 @@ router.post("/doctor/set_availability", async (req, res) => {
       doctorname,
       speciality,
       user: req.user,
+      notifications: res.locals.notifications,
     });
   } else {
     const newData = new Availability({
@@ -153,6 +156,7 @@ router.get(
                   patientCount,
                   patients: patients, //just patients yo line ma incase --->const patients
                   user: req.user, //which is done above
+                  notifications: res.locals.notifications,
                 });
               }
             }
@@ -164,6 +168,7 @@ router.get(
           patientCount,
           patients,
           user: req.user,
+          notifications: res.locals.notifications,
         });
       }
     });
@@ -221,6 +226,7 @@ router.get("/viewpatientsD/:id", ensureAuthenticated_doctor, (req, res) => {
     patientCount,
     patient: req.patient,
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 
@@ -233,6 +239,7 @@ router.get(
       patient: req.patient,
       images: req.report,
       user: req.user,
+      notifications: res.locals.notifications,
     });
   }
 );
@@ -246,6 +253,7 @@ router.get(
       role: "Doctor",
       adminimages: req.adminreport,
       user: req.user,
+      notifications: res.locals.notifications,
     });
   }
 );

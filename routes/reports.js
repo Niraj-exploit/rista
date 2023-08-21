@@ -20,12 +20,14 @@ require("../handlers/cloudinary");
 router.get("/uploadreport", ensureAuthenticated_patient, (req, res) => {
   res.render("patient/uploadreport", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 
 router.get("/adminupload/:id", ensureAuthenticated_admin, (req, res) => {
   res.render("admin/adminreport", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
   toPatient = req.params.id;
 });
@@ -33,6 +35,7 @@ router.get("/adminupload/:id", ensureAuthenticated_admin, (req, res) => {
 router.get("/doctorupload/:id", ensureAuthenticated_doctor, (req, res) => {
   res.render("doctorreport", {
     user: req.user,
+    notifications: res.locals.notifications,
   });
   toPatient = req.params.id;
 });
@@ -190,6 +193,7 @@ router.get("/myuploads", ensureAuthenticated_patient, async (req, res) => {
     role: "Patient",
     images,
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 
@@ -203,6 +207,7 @@ router.get("/fromhospital", ensureAuthenticated_patient, async (req, res) => {
     role: "Patient",
     adminimages,
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 

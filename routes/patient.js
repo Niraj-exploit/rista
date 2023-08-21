@@ -219,6 +219,7 @@ router.get("/viewdoctors", ensureAuthenticated_patient, async (req, res) => {
                 doctorCount,
                 doctors: doctors, //just doctors yo line ma incase --->const doctors
                 user: req.user, //which is done above
+                notifications: res.locals.notifications,
               });
             }
           }
@@ -231,6 +232,7 @@ router.get("/viewdoctors", ensureAuthenticated_patient, async (req, res) => {
         doctorCount,
         doctors,
         user: req.user,
+        notifications: res.locals.notifications,
       });
     }
   });
@@ -277,6 +279,7 @@ router.get("/activeDoctors", ensureAuthenticated_patient, async (req, res) => {
     availDoc,
     availDocCount,
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
 
@@ -312,6 +315,7 @@ router.get(
                   doctorCount,
                   doctors: doctors, //just doctors yo line ma incase --->const doctors
                   user: req.user, //which is done above
+                  notifications: res.locals.notifications,
                 });
               }
             }
@@ -324,6 +328,7 @@ router.get(
           doctorCount,
           doctors,
           user: req.user,
+          notifications: res.locals.notifications,
         });
       }
     });
@@ -367,7 +372,23 @@ router.get("/:id", ensureAuthenticated_patient, async (req, res) => {
     availability: req.availability,
     doctor: req.doctor,
     user: req.user,
+    notifications: res.locals.notifications,
   });
 });
+
+router.get('/notifications', (req, res) => {
+  Notification.find()
+    .sort({ date: -1 }) // Sort by date in descending order
+    .then(notifications => {
+      res.render('your_notification_template', {
+        notifications: notifications
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
 
 module.exports = router;
