@@ -217,7 +217,8 @@ router.param("id", function (req, res, next, toPatient) {
 });
 
 router.get("/viewpatientsD/:id", ensureAuthenticated_doctor, (req, res) => {
-  res.render("doctor/patientdetails", {
+  res.render("doctor/viewpatients", {
+    patientCount,
     patient: req.patient,
     user: req.user,
   });

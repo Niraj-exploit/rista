@@ -2,7 +2,7 @@
 <div id="wrapper">
 
   <!-- Sidebar -->
-  <%- include('./partials/sideMenuDr.ejs'); %>
+  <%- include('../partials/sideMenuDr.ejs'); %>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -12,9 +12,9 @@
       <div id="content">
 
         <!-- Topbar -->
-        <%- include('./partials/top_nav.ejs'); %>
+        <%- include('../partials/top_nav.ejs'); %>
           <!-- End of Topbar -->
-          <%- include('./partials/messages.ejs'); %>
+          <%- include('../partials/messages.ejs'); %>
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
@@ -34,8 +34,8 @@
 
                   </div>
                   <div id="details" class=" col-md-5 ml-5 align-items-begin h5">
-                    <div class="mb-4 hvr-grow-shadow"><b>Patient ID :</b>
-                      <%=user.tokennumber%>
+                    <div class="mb-4 hvr-grow-shadow"><b>Name :</b>
+                      <%=user.name%>
                     </div>
                     <div class=" mb-4 hvr-grow-shadow"><b>Email :</b>
                       <%=user.email%>
@@ -43,11 +43,14 @@
                     <div class=" mb-4 hvr-grow-shadow"><b>Gender :</b>
                       <%=user.gender%>
                     </div>
-                    <div class=" mb-4 hvr-grow-shadow"><b>Age :</b>
-                      <%=user.age%>
+                    <div class=" mb-4 hvr-grow-shadow"><b>Experience :</b>
+                      <%=user.experience%>
                     </div>
-                    <div class=" mb-4 hvr-grow-shadow"><b>Address :</b>
-                      <%=user.address%>
+                    <div class=" mb-4 hvr-grow-shadow"><b>Speciality :</b>
+                      <%=user.speciality%>
+                    </div>
+                    <div class=" mb-4 hvr-grow-shadow"><b>Qualification :</b>
+                      <%=user.qualification%>
                     </div>
                     <div class=" mb-4 hvr-grow-shadow"><b>Joined :</b>
                       <%=user.date.toDateString()%>
