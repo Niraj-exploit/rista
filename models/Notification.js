@@ -17,6 +17,10 @@ const notificationSchema = new mongoose.Schema({
     type: String,
     required: 'Color is Required'
   },
+  description: {
+    type: String,
+    required: 'Description is Required'
+  },
 //   imageUrl: {
 //     type: String
 //   },

@@ -1,4 +1,3 @@
-<%- include('../partials/messages.ejs'); %>
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -28,6 +27,7 @@
                   <div class="table-responsive">
 
                     <!-- Main Content -->
+                    <%- include('../partials/messages.ejs'); %>
                     <form action="/pushNotification" method="post">
                         <div class="form-group">
                             <div class="form-row">
@@ -59,9 +59,11 @@
                                     <label for="color">Color</label>
                                     <select id="color" name="color" class="form-control" required>
                                         <option value="" disabled selected>Select Color</option>
-                                        <option value="bg-info">Info</option>
-                                        <option value="bg-success">Success</option>
-                                        <option value="bg-secondary">Secondary</option>
+                                        <option value="primary">Primary</option>
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                        <option value="success">Success</option>
+                                        <option value="secondary">Secondary</option>
                                     </select>
                                 </div>
                                 <br>
@@ -72,7 +74,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Notification</button>
+                        <button type="submit" class="btn btn-info mb-3">Send Notification</button>
                     </form>
                     
                         <!-- End of Main Content -->

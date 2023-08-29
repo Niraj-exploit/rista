@@ -247,9 +247,9 @@ header ul li a {
   /* background: #fff; */
   box-shadow: 4px 8px 12px #121312;
 }
-.card-body:hover {
+/* .card-body:hover {
   transform: translateY(-5px);
-}
+} */
 
 .reglog_form {
   width: 500px;

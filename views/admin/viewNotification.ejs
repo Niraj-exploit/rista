@@ -25,6 +25,7 @@
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
+                                <a href="/viewNotificationsDetail?selectedItem=VIEW NOTIFICATION DETAIL" class="btn btn-secondary"><i class="bi bi-eye"></i> Change View</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -62,9 +63,9 @@
                                                         <%= Notification.date.toDateString() %>
                                                     </td>
                                                     <td><a href="#"
-                                                            class="aa btn btn-success">View More Details</a>
+                                                            class="btn btn-info">View More Details</a>
                                                     <a href="#"
-                                                            class="aa btn btn-danger">Delete </a>
+                                                            class="btn btn-danger">Delete </a>
                                                     </td>
                                                 </tr>
                                                 <% }) %>

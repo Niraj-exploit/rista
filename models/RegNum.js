@@ -1,9 +1,19 @@
+
 const mongoose = require('mongoose')
 
 const RegNumSchema = new mongoose.Schema({
-    regnum_patient: {
+    token: {
         type: String,
-        required: true
+    },
+    userName:{
+        type:String,
+    },
+    used:{
+        type:Boolean,
+        default:false
+    },
+    expiration: {
+        type: Date,
     }
 });
 

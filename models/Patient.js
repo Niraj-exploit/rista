@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const PatientSchema = new mongoose.Schema({
-    tokennumber: {
-        type: String,
-        required: true
-    },
+
     name: {
         type:String,
         required: true

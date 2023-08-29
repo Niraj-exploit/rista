@@ -14,6 +14,7 @@ const MongoStore = require('connect-mongo');
 const server = http.createServer(app);
 const dotenv = require("dotenv");
 const Notification = require("./models/Notification");
+const Message = require("./models/Message")
 dotenv.config();
 
 app.use("/public/images/", express.static("./public/images"));
@@ -109,12 +110,33 @@ app.use(flash());
 //   res.locals.error = req.flash("error");
 //   next();
 // });
+// app.use(async function (req, res, next) {
+//   try {
+//     const notifications = await Notification.find().sort({ date: -1 }).limit(5);
+//     res.locals.notifications = notifications;
+//   } catch (err) {
+//     console.error('Error fetching notifications:', err);
+//   }
+  
+//   res.locals.success_msg = req.flash('success_msg');
+//   res.locals.error_msg = req.flash('error_msg');
+//   res.locals.error = req.flash('error');
+  
+//   next();
+// });
 app.use(async function (req, res, next) {
   try {
-    const notifications = await Notification.find().sort({ date: -1 }).limit(5);
+    const notifications = await Notification.find({
+      to: req.user.role || null // Fetch notifications based on user's role
+    }).sort({ date: -1 }).limit(5);
     res.locals.notifications = notifications;
+
+    const messages = await Message.find({
+      recipient: req.user._id // Fetch messages where recipient matches the user's ID
+    }).sort({ createdAt: -1 }).limit(5);
+    res.locals.messages = messages; 
   } catch (err) {
-    console.error('Error fetching notifications:', err);
+    console.error('Error fetching data:', err);
   }
   
   res.locals.success_msg = req.flash('success_msg');
@@ -123,6 +145,7 @@ app.use(async function (req, res, next) {
   
   next();
 });
+
 
 //call routes
 
@@ -136,6 +159,8 @@ app.use("/", require("./routes/doctorcontrols"));
 app.use("/", require("./routes/appointment"));
 app.use("/", require("./routes/api/feedback"));
 app.use("/", require("./routes/notification"));
+app.use("/", require("./routes/message"));
+app.use("/", require("./routes/regnum"));
 app.use("/patient", require("./routes/patient"));
 app.use("/doctor", require("./routes/doctor"));
 app.use("/admin", require("./routes/admin"));

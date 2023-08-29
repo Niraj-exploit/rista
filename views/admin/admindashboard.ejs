@@ -92,6 +92,10 @@
 
               </div>
 
+              <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+
               <!-- End of Main Content -->
 
 
@@ -221,3 +225,36 @@
       }
     });
   </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // Chart.js code
+  const ctx = document.getElementById('myChart').getContext('2d');
+  
+  const data = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [{
+          label: 'Patient and Doctor Count',
+          data: [<%= patientCount %>, <%= doctorCount %>],
+          backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+          borderWidth: 1
+      }]
+  };
+
+  const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+          y: {
+              beginAtZero: true
+          }
+      }
+  };
+  
+  const myChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+  });
+</script>

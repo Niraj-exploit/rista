@@ -54,6 +54,7 @@ router.get('/admindashboard', ensureAuthenticated_admin, async (req, res) => {
                 res.render('admin/admindashboard', {
                     user: req.user,
                     notifications: res.locals.notifications,
+                    messages: res.locals.messages,
                     patientCount,
                     doctorCount,
                     feedbackCount

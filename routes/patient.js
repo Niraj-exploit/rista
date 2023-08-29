@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const router = express.Router();
 const passport = require("passport");
 const moment = require("moment");
-
+const regnum = require("../models/RegNum");
 const { ensureAuthenticated_patient } = require("../config/auth");
 
 //passport config
@@ -37,12 +37,28 @@ router.get("/login", (req, res) => {
 }); //arrowfunc with req and res object
 
 //register page
-router.get("/register", (req, res) => res.render("patient/register"));
+router.get("/register", async (req, res) => {
+  try {
+    const regnumData = await regnum.findOne({ token: req.query.tokennumber }); // Fetch the data from the RegNum collection using the token
+    const existingToken = regnumData ? regnumData.token : null;
+    const existingUserName = regnumData ? regnumData.userName : null;
+
+    res.render("patient/register", {
+      existingToken: existingToken,
+      existingUserName: existingUserName, // Pass the existingUserName to the view
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
 
 //register handle
 router.post("/register", (req, res) => {
+  console.log(req.body);
   const {
-    tokennumber,
     name,
     email,
     password,
@@ -58,7 +74,6 @@ router.post("/register", (req, res) => {
 
   //check required fields
   if (
-    !tokennumber ||
     !name ||
     !email ||
     !password ||
@@ -102,7 +117,6 @@ router.post("/register", (req, res) => {
     res.render("patient/register", {
       //suppose kunai condition meet garena bhane ni tei page ma basne bhayo
       errors,
-      tokennumber, //register lai rendering garda errors lai pathairacha which is checked in messages
       name,
       email,
       password,
@@ -124,7 +138,6 @@ router.post("/register", (req, res) => {
         res.render("patient/register", {
           //if their is user re render the reg form and send error
           errors,
-          tokennumber,
           name,
           email,
           password,
@@ -136,7 +149,6 @@ router.post("/register", (req, res) => {
       } else {
         //if there is new  user we have to create a user
         const newUser = new Patient({
-          tokennumber,
           name, // name:name,
           email,
           password,
@@ -187,6 +199,7 @@ router.get("/logout", (req, res) => {
   req.flash("success_msg", "You are logged out");
   res.redirect("/");
 });
+
 
 // Search/view doctors
 
@@ -390,5 +403,20 @@ router.get('/notifications', (req, res) => {
     });
 });
 
+router.post("/check-email-availability", async (req, res) => {
+  try {
+    const email = req.body.email;
+    const existingPatient = await Patient.findOne({ email });
+
+    if (existingPatient) {
+      res.json({ available: false }); // Email is not available
+    } else {
+      res.json({ available: true }); // Email is available
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ available: false }); // Handle error and consider email as not available
+  }
+});
 
 module.exports = router;

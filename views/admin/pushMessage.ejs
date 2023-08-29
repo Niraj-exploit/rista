@@ -1,0 +1,99 @@
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('../partials/sideMenuAdmin.ejs'); %>
+
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <%- include('../partials/top_nav.ejs'); %>
+
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+              <!-- Page Heading -->
+              <div class="card shadow mb-4">
+
+                <div class="card-body mt-5">
+                  <div class="table-responsive">
+
+                    <!-- Main Content -->
+                    <%- include('../partials/messages.ejs'); %>
+                    <!-- send_message.ejs -->
+<form action="/send" method="post">
+    <div class="form-group">
+      <label for="recipientRole">Recipient Role:</label>
+      <select id="recipientRole" name="recipientRole" class="form-control" required>
+        <option value="" disabled selected>Select Recipient Role</option>
+        <option value="admin">Admin</option>
+        <option value="doctor">Doctor</option>
+        <option value="patient">Patient</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="recipientUsername">Recipient Username:</label>
+      <select id="recipientUsername" name="recipientUsername" class="form-control" required>
+        <option value="" disabled selected>Select Recipient Username</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="messageText">Message:</label>
+      <textarea id="messageText" name="messageText" class="form-control" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Message</button>
+  </form>
+  
+<!-- send_message.ejs -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const recipientRoleSelect = document.getElementById("recipientRole");
+      const recipientUsernameSelect = document.getElementById("recipientUsername");
+  
+      recipientRoleSelect.addEventListener("change", async function () {
+        recipientUsernameSelect.innerHTML = '<option value="" disabled selected>Select Recipient Username</option>';
+  
+        const selectedRole = recipientRoleSelect.value;
+  
+        try {
+          const response = await fetch(`/usernames/${selectedRole}`);
+          const usernames = await response.json();
+          console.log("resonse:", response.json());
+          usernames.forEach(username => {
+            const option = document.createElement("option");
+            option.value = username;
+            option.textContent = username;
+            recipientUsernameSelect.appendChild(option);
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    });
+  </script>
+  
+  
+                    
+                        <!-- End of Main Content -->
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fas fa-angle-up"></i>
+        </a>

@@ -64,18 +64,73 @@ router.get('/adminPushNotification', ensureAuthenticated_admin, (req, res) => {
     }
   });
   
-router.get('/viewNotifications', ensureAuthenticated_admin, (req, res) => {
-    Notification.find()
-      .sort({ date: -1 }) // Sort by date in descending order
-      .then(notifications => {
-        res.render('admin/viewNotification', {
-          notifications: notifications,
-          user: req.user
-        });
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
+  router.get('/viewNotifications', ensureAuthenticated_admin, async (req, res) => {
+    const user = req.user;
+  
+    try {
+      const notifications = await Notification.find({ to: user.role, 'to': { '$in': user.role }}).sort({ date: -1 });
+  
+      let view = 'admin/viewNotification'; 
+  
+      res.render(view, {
+        notifications: notifications,
+        user: user
       });
-});
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  router.get('/viewNotificationsDetail', ensureAuthenticated_admin, async (req, res) => {
+    const user = req.user;
+  
+    try {
+      const notifications = await Notification.find({ to: user.role, 'to': { '$in': user.role }}).sort({ date: -1 });
+  
+      let view = 'admin/viewNotificationDetail'; 
+  
+      res.render(view, {
+        notifications: notifications,
+        user: user
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  router.get('/doctor/viewNotifications', ensureAuthenticated_admin, async (req, res) => {
+    const user = req.user;
+  
+    try {
+      const notifications = await Notification.find({ to: user.role, 'to': { '$in': user.role }}).sort({ date: -1 });
+  
+      let view = 'doctor/viewNotificationDetail'; 
+  
+      res.render(view, {
+        notifications: notifications,
+        user: user
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
+  router.get('/doctor/viewNotifications', ensureAuthenticated_admin, async (req, res) => {
+    const user = req.user;
+  
+    try {
+      const notifications = await Notification.find({ to: user.role, 'to': { '$in': user.role }}).sort({ date: -1 });
+  
+      let view = 'patient/viewNotificationDetail'; 
+  
+      res.render(view, {
+        notifications: notifications,
+        user: user
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
   module.exports = router;

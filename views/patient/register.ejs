@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -80,9 +80,35 @@
                   <form action="/patient/register" method="POST">
                     <div class="form-group">
                       <label for="tokennumber">Registration Number</label>
-                      <input type="name" id="tokennumber" name="tokennumber" class="form-control"
-                        placeholder="Enter registration number" value="<%= typeof name != 'undefined' ? name : '' %>" />
+                      <input type="text" class="form-control" id="tokennumber" name="tokennumber" required>
+                      <small id="token-validation-feedback" class="form-text"></small>
                     </div>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script>
+                      $(document).ready(function () {
+                        $("#tokennumber").on("input", function () {
+                          const token = $(this).val();
+                          const feedbackElement = $("#token-validation-feedback");
+                    
+                          $.ajax({
+                            method: "POST",
+                            url: "/check-token-validity", // Update with your server route
+                            data: { tokennumber: token },
+                            success: function (response) {
+                              if (response.valid) {
+                                feedbackElement.text("Registration number is valid.").removeClass("text-danger").addClass("text-success");
+                              } else {
+                                feedbackElement.text("Invalid registration number.").removeClass("text-success").addClass("text-danger");
+                              }
+                            },
+                            error: function () {
+                              feedbackElement.text("An error occurred while checking the registration number.").removeClass("text-success").addClass("text-danger");
+                            }
+                          });
+                        });
+                      });
+                    </script>
+                    
                     <div class="form-group">
                       <label for="name">Full Name</label>
                       <input type="name" id="name" name="name" class="form-control " placeholder="Enter Full Name"
@@ -142,4 +168,363 @@
   </section>
 </body>
 
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/public/images/css/intro.css" />
+  <link rel="stylesheet" href="/public/images/css/hover.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://bootswatch.com/4/minty/bootstrap.min.css" />
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <title>E-Hospital | Patient Register</title>
+</head>
+<body>
+  <section>
+    <div class="circle" style="background: #017143"></div>
+    <header>
+      <a href="/"><img src="/public/images/title_logo.svg" class="logo" height="80" width="80" /></a>
+    </header>
+    <div class="content">
+        <div class="textBox" style="margin-top: 10%;">
+            <h3><span>Patient</span> Section<br /></h3>
+            <hr>
+            <p>
+              We keep your records safe and easy to view.You can see details of
+              all the available doctors and appoint them.
+            </p>
+            <br />
+            <div style="margin-top: 20px; margin-left: 3%" class="">
+              <div style="
+                    display: inline-block;
+                    position: relative;
+                    background: transparent;
+                  " class="">
+                <i class="fas fa-procedures fa-3x"></i>
+              </div>
+              <div style="
+                    display: inline-block;
+                    position: relative;
+                    background: transparent;
+                  " class="ml-5">
+                <i class="fas fa-user-injured fa-3x"></i>
+              </div>
+              <div style="
+                    display: inline-block;
+                    position: relative;
+                    background: transparent;
+                  " class="ml-5">
+                <i class="fas fa-id-card fa-3x"></i>
+              </div>
+              <div style="
+                    display: inline-block;
+                    position: relative;
+                    background: transparent;
+                  " class="ml-5">
+                <i class="fas fa-user-check fa-3x hvr-icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="imgBox">
+            <img src="/public/images/pat_1.png" class="user" />
+          </div>
+
+          <div class="register_form">
+            <div class="form-row">
+              <div class="col-md-12">
+                <div class="card card-body">
+                    <img class="logo" src="/public/images/logo_new.png" height="80px" width="242.424242px"
+                    style="margin-top: 0%; margin-left: 27%" />
+                  <br />
+                  <br />
+                  <h5 id="card_title" class="text-center" style="color: #fff;">
+                    <i class="fas fa-sign-in-alt hvr-icon"></i><b> Patient Register</b>
+                  </h5>
+                  <hr />
+          
+                  <div style="color: #017143;">
+                    <%- include('../partials/messages.ejs'); %>
+                    <form action="/patient/register" method="POST">
+                      <div class="form-group">
+                        <label for="tokennumber">Registration Number</label>
+                        <input type="text" class="form-control" id="tokennumber" name="tokennumber" placeholder="Enter Registration Number" required>
+                        <small id="token-validation-feedback" class="form-text"></small>
+                      </div>
+          
+                      <!-- Other form fields hidden by default -->
+                      <div id="otherFields" style="display: none;">
+                        <div class="form-group">
+                          <label for="name">Full Name</label>
+                          <input type="text" id="name" name="name" class="form-control" placeholder="Enter Full Name" required/>
+                        </div>
+                        
+                        <div class="form-group">
+                          <label for="email">Email</label>
+                          <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email ID"
+                            value="<%= typeof email != 'undefined' ? email : '' %>" required/>
+                          <small id="email-validation-feedback" class="form-text"></small>
+                        </div>
+                        
+                        <script>
+                          $(document).ready(function () {
+                            const emailInput = $("#email");
+                            const registrationButton = $("button[type='submit']");
+                            const emailValidationFeedback = $("#email-validation-feedback");
+                        
+                            emailInput.on("input", function () {
+                              const email = $(this).val();
+                              const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                        
+                              if (isValidEmail) {
+                                $.ajax({
+                                  method: "POST",
+                                  url: "/patient/check-email-availability", // Replace with your server route to check email availability
+                                  data: { email: email },
+                                  success: function (response) {
+                                    if (response.available) {
+                                      registrationButton.prop("disabled", false); // Enable the register button
+                                      emailValidationFeedback.text(""); // Clear any existing error message
+                                    } else {
+                                      registrationButton.prop("disabled", true); // Disable the register button
+                                      emailValidationFeedback.text("This email is already registered.").css("color", "red");
+                                    }
+                                  },
+                                  error: function () {
+                                    registrationButton.prop("disabled", true); // Disable the register button
+                                    emailValidationFeedback.text("An error occurred while checking the email.").css("color", "red");
+                                  }
+                                });
+                              } else {
+                                registrationButton.prop("disabled", true); // Disable the register button
+                                emailValidationFeedback.text("Please enter a valid email address.").css("color", "red");
+                              }
+                            });
+                          });
+                        </script>
+                        
+                        
+                        
+                        
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="password">Password</label>
+                              <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password" />
+                              <small id="password-validation-feedback" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="password2">Confirm Password</label>
+                              <input type="password" id="password2" name="password2" class="form-control"
+                                placeholder="Confirm Password"
+                                value="<%= typeof password2 != 'undefined' ? password2 : '' %>" />
+                              <small id="password2-validation-feedback" class="form-text"></small>
+                            </div>
+                            <div id="password-requirements-wrapper" style="display: none;">
+                              <ul id="password-requirements">
+                                <li id="lowercase">At least one lowercase letter</li>
+                                <li id="uppercase">At least one uppercase letter</li>
+                                <li id="number">At least one number</li>
+                                <li id="special-character">At least one special character</li>
+                                <li id="length">Minimum length of 8 characters</li>
+                              </ul>
+                            </div>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                              $(document).ready(function () {
+                                const passwordInput = $("#password");
+                                const feedbackElement = $("#password-validation-feedback");
+                                const requirementsWrapper = $("#password-requirements-wrapper");
+                                const registrationButton = $("button[type='submit']");
+                                const requirementsList = $("#password-requirements li");
+                            
+                                passwordInput.on("click", function () {
+                                  requirementsWrapper.show(); // Show the password requirements list
+                                });
+                            
+                                passwordInput.on("input", function () {
+                                  const password = $(this).val();
+                                  const requirements = [
+                                    { rule: /[a-z]/, id: "lowercase" },            // At least one lowercase letter
+                                    { rule: /[A-Z]/, id: "uppercase" },            // At least one uppercase letter
+                                    { rule: /\d/, id: "number" },                  // At least one digit
+                                    { rule: /[@$!%*?&]/, id: "special-character" }, // At least one special character
+                                    { rule: /.{8,}/, id: "length" }                // Minimum length of 8 characters
+                                  ];
+                            
+                                  const isValidPassword = requirements.every(requirement => requirement.rule.test(password));
+                                  registrationButton.prop("disabled", !isValidPassword); // Enable/disable the register button
+                            
+                                  requirementsList.each(function (index, element) {
+                                    const requirement = requirements[index];
+                                    const requirementId = requirement.id;
+                                    const rule = requirement.rule;
+                            
+                                    if (rule.test(password)) {
+                                      $(element).hide(); // Hide the requirement if it's met
+                                    } else {
+                                      $(element).show(); // Show the requirement if it's not met
+                                    }
+                                  });
+                            
+                                  if (isValidPassword) {
+                                    feedbackElement.text("");
+                                  } else {
+                                    feedbackElement.text("Password must meet the following requirements:");
+                                  }
+                                });
+                              });
+                            </script>
+                            
+                            <script>
+                              $(document).ready(function () {
+                                const passwordInput = $("#password");
+                                const password2Input = $("#password2");
+                                const feedbackElement = $("#password2-validation-feedback");
+                                const registrationButton = $("button[type='submit']");
+                            
+                                password2Input.on("input", function () {
+                                  const password = passwordInput.val();
+                                  const password2 = $(this).val();
+                            
+                                  if (password2 === password) {
+                                    feedbackElement.text("Passwords match").removeClass("text-danger").addClass("text-success");
+                                    registrationButton.prop("disabled", false); // Enable the register button
+                                  } else {
+                                    feedbackElement.text("Passwords do not match").removeClass("text-success").addClass("text-danger");
+                                    registrationButton.prop("disabled", true); // Disable the register button
+                                  }
+                                });
+                              });
+                            </script>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="gender" class="form-control-label">Gender</label>
+                              <select name="gender" id="gender" class="form-control custom-select">
+                                <option name="male">Male</option>
+                                <option name="female">Female</option>
+                                <option name="others">Others</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="age">Age</label>
+                              <input type="number" id="age" name="age" class="form-control" placeholder="Age"
+                                value="<%= typeof age != 'undefined' ? age : '' %>" required />
+                              <div class="invalid-feedback">
+                                Please provide a valid age.
+                              </div>
+                            </div>
+
+                            
+                      </div>
+                      <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" class="form-control" placeholder="Address"
+                          value="<%= typeof address != 'undefined' ? address : '' %>" required />
+                        <div class="invalid-feedback">
+                          Please provide an address.
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-success btn-block hvr-grow-shadow" style="background:#017143"
+                        disabled>Register</button>
+                    </form>
+                    <p class="lead mt-4">
+                      Have An Account?
+                      <a style="color: #017143" href="/patient/login"><b>Login</b></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+  </section>
+
+  <script>
+    $(document).ready(function () {
+      const tokenInput = $("#tokennumber");
+      const feedbackElement = $("#token-validation-feedback");
+      const otherFields = $("#otherFields");
+      const nameInput = $("#name");
+      const registrationButton = $("button[type='submit']");
+  
+      tokenInput.on("input", function () {
+        const token = $(this).val();
+  
+        // AJAX request to /get-username route
+        $.ajax({
+          method: "POST",
+          // url: "/get-username", 
+          url: "/check-token-validity",
+          data: { tokennumber: token },
+          success: function (response) {
+            if (response.valid) {
+              feedbackElement.text(response.message).removeClass("text-danger").addClass("text-success");
+              otherFields.show();
+              nameInput.val(response.username);
+              registrationButton.prop("disabled", false); 
+              tokenInput.prop("disabled", true); 
+  
+              // Send GET request to /patient/register route
+              $.ajax({
+                method: "GET",
+                url: `/patient/register?tokennumber=${encodeURIComponent(token)}`, // Properly encode the token
+                success: function (registerResponse) {
+                  // Handle the response from the backend
+                  // Populate additional form fields using registerResponse data
+                },
+                error: function () {
+                  // Handle error
+                }
+              });
+            } else {
+              feedbackElement.text(response.message).removeClass("text-success").addClass("text-danger");
+              otherFields.hide();
+              nameInput.val("");
+              registrationButton.prop("disabled", true); // Disable the register button
+              tokenInput.prop("disabled", false); // Enable the registration number input
+            }
+          },
+          error: function () {
+            feedbackElement.text("An error occurred while checking the registration number.").removeClass("text-success").addClass("text-danger");
+            otherFields.hide();
+            nameInput.val("");
+            registrationButton.prop("disabled", true); // Disable the register button
+            tokenInput.prop("disabled", false); // Enable the registration number input
+          }
+        });
+      });
+    });
+  </script>
+  
+  
+  <!-- <script>
+    $(document).ready(function () {
+      const tokenInput = $("#tokennumber");
+      const nameInput = $("#name");
+  
+      tokenInput.on("input", function () {
+        const token = $(this).val();
+  
+        $.ajax({
+          method: "GET",
+          url: `/patient/register?tokennumber=${token}`, // Send the token number as a query parameter
+          success: function (response) {
+            nameInput.val(response.existingUserName);
+          },
+          error: function () {
+            nameInput.val("");
+          }
+        });
+      });
+    });
+  </script> -->
+
+  
+  
+</body>
 </html>

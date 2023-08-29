@@ -27,7 +27,7 @@ router.post(
     });
     profile.imageUrl = result.secure_url;
     await profile.save();
-    res.redirect("admin/adminprofile");
+    res.redirect("/adminprofile?selectedItem=MY%20PROFILE");
   }
 );
 
